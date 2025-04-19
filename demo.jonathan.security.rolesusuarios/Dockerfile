@@ -2,6 +2,11 @@
 FROM eclipse-temurin:17 AS builder
 WORKDIR /app
 COPY . .
+
+# Asegúrate de que mvnw tenga permisos de ejecución
+RUN chmod +x ./mvnw
+
+# Construye el proyecto
 RUN ./mvnw clean package -DskipTests
 
 # Etapa 2: Imagen final

@@ -102,6 +102,14 @@ public class Usuario {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public Set<RegistroMaterialDTO> getMaterialesReciclados() {
+        return materialesReciclados;
+    }
+
+    public void setMaterialesReciclados(Set<RegistroMaterialDTO> materialesReciclados) {
+        this.materialesReciclados = materialesReciclados;
+    }
 }
 
 

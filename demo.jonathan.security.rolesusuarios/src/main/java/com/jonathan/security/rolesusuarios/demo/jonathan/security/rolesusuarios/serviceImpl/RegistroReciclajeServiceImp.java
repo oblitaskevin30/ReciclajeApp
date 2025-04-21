@@ -33,14 +33,14 @@ public class RegistroReciclajeServiceImp implements RegistroReciclajeService {
         registroReciclaje1.setFecha(registroReciclaje.getFecha());
         registroReciclaje1.setIdUsuario(registroReciclaje.getIdUsuario());
         registroReciclaje1.setIdMaterial(registroReciclaje.getIdMaterial());
+        registroReciclaje1.setCantidad(registroReciclaje.getCantidad());
 
         int puntajeMaterial = reciclajeRepository.findById(registroReciclaje.getIdMaterial()).orElseThrow().getPuntaje();
 
-        registroReciclaje1.setPuntajeObtenido(puntajeMaterial);
+        registroReciclaje1.setPuntajeObtenido((int)(puntajeMaterial * registroReciclaje1.getCantidad()));
 
         registroReciclajeRepository.save(registroReciclaje1);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(registroReciclaje1);
-
     }
 }

@@ -2,6 +2,7 @@ package com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios
 
 
 import com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.model.Rol;
+import jakarta.persistence.Column;
 
 import java.util.Set;
 
@@ -9,6 +10,7 @@ public class UsuarioDTO {
 
     private Integer idUsuario;
 
+    @Column(unique = true)
     private String email;
 
     private String nombre;
@@ -17,14 +19,17 @@ public class UsuarioDTO {
 
     private Set<RegistroMaterialDTO> materialesReciclados;
 
+    private Integer puntajeTotal;
+
     public UsuarioDTO(){}
 
-    public UsuarioDTO(Integer idUsuario, String email ,String nombre,Set<RegistroMaterialDTO> materialesReciclados,  Set<Rol> roles) {
+    public UsuarioDTO(Integer idUsuario, String email ,String nombre,Set<RegistroMaterialDTO> materialesReciclados,  Set<Rol> roles, Integer puntajeTotal) {
         this.idUsuario = idUsuario;
         this.email = email;
         this.roles = roles;
         this.nombre = nombre;
         this.materialesReciclados = materialesReciclados;
+        this.puntajeTotal = puntajeTotal;
     }
 
     public String getNombre() {
@@ -65,5 +70,13 @@ public class UsuarioDTO {
 
     public void setMaterialesReciclados(Set<RegistroMaterialDTO> materialesReciclados) {
         this.materialesReciclados = materialesReciclados;
+    }
+
+    public Integer getPuntajeTotal() {
+        return puntajeTotal;
+    }
+
+    public void setPuntajeTotal(Integer puntajeTotal) {
+        this.puntajeTotal = puntajeTotal;
     }
 }

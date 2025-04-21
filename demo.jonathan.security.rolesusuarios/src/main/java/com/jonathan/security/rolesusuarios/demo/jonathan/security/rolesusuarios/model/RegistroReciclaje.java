@@ -18,16 +18,19 @@ public class RegistroReciclaje {
 
     private int puntajeObtenido;
 
+    private double cantidad;
+
     private LocalDateTime fecha;
 
     public RegistroReciclaje(){}
 
-    public RegistroReciclaje(int id, int idUsuario, int idMaterial, int puntajeObtenido, LocalDateTime fecha) {
+    public RegistroReciclaje(int id, int idUsuario, int idMaterial, int puntajeObtenido, LocalDateTime fecha, Double cantidad) {
         this.id = id;
         this.idUsuario = idUsuario;
         this.idMaterial = idMaterial;
         this.puntajeObtenido = puntajeObtenido;
         this.fecha = fecha;
+        this.cantidad = cantidad;
     }
 
     public int getId() {
@@ -68,5 +71,13 @@ public class RegistroReciclaje {
 
     public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
+    }
+
+    public double getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(double cantidad) {
+        this.cantidad = cantidad;
     }
 }

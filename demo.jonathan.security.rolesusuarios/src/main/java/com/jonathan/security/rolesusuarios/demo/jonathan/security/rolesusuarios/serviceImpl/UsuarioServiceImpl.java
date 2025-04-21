@@ -36,6 +36,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public ResponseEntity<?> listarUsuario() {
         Map<String, Object> respuesta = new HashMap<>();
+
         List<Usuario> usuarios = usuarioRepository.findAll();
 
         if (usuarios.isEmpty()) {
@@ -46,6 +47,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
 
         List<UsuarioDTO> usuarioDTOList = usuarios.stream().map(usuario -> {
+
             UsuarioDTO dto = usuario.getUsuarioDTO();
 
 
@@ -81,7 +83,11 @@ public class UsuarioServiceImpl implements UsuarioService {
             }
 
             dto.setMaterialesReciclados(new HashSet<>(materialesMap.values()));
+
+            dto.setPuntajeTotal(calcularPuntajeTotal(dto));
+
             return dto;
+
         }).toList();
 
         respuesta.put("mensaje", "Lista de usuarios");
@@ -96,10 +102,12 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public ResponseEntity<?> buscarUsuarioPorId(Integer id) {
         Map<String, Object> respuesta = new HashMap<>();
+
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
 
         if (usuarioOptional.isPresent()) {
             Usuario usuario = usuarioOptional.get();
+
 
             List<RegistroReciclaje> registros = registroReciclajeRepository
                     .findAll()
@@ -108,6 +116,8 @@ public class UsuarioServiceImpl implements UsuarioService {
                     .toList();
 
             UsuarioDTO dto = usuario.getUsuarioDTO();
+
+
             Map<Integer, RegistroMaterialDTO> materialesMap = new HashMap<>();
 
             for (RegistroReciclaje registro : registros) {
@@ -133,6 +143,8 @@ public class UsuarioServiceImpl implements UsuarioService {
             }
 
             dto.setMaterialesReciclados(new HashSet<>(materialesMap.values()));
+            Integer puntajeTotalUsuario = calcularPuntajeTotal(dto);
+            dto.setPuntajeTotal(puntajeTotalUsuario);
 
             respuesta.put("mensaje", "Usuario encontrado exitosamente");
             respuesta.put("timestamp", new Date());
@@ -259,5 +271,16 @@ public class UsuarioServiceImpl implements UsuarioService {
         respuesta.put("timestamp", new Date());
         respuesta.put("estado", HttpStatus.BAD_REQUEST);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(respuesta);
+    }
+
+    public Integer calcularPuntajeTotal(UsuarioDTO usuario){
+
+        Integer puntaje = 0;
+        Set<RegistroMaterialDTO> registroMaterialDTOList = usuario.getMaterialesReciclados();
+        for (RegistroMaterialDTO r : registroMaterialDTOList){
+            puntaje += r.getPuntajeAcumuladoMaterial();
+        }
+        return puntaje;
+
     }
 }

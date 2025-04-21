@@ -4,10 +4,7 @@ import com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.
 import com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.service.RegistroReciclajeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/registro-reciclaje")
@@ -19,5 +16,10 @@ public class RegistroReciclajeController {
     @PostMapping
     public ResponseEntity<?> crearRegistro(@RequestBody RegistroReciclaje registroReciclaje) {
         return registroReciclajeService.crearRegistroReciclaje(registroReciclaje);
+    }
+
+    @GetMapping("/listar")
+    public ResponseEntity<?> listarRegistrosReciclaje(){
+        return  registroReciclajeService.listarRegistroReciclaje();
     }
 }

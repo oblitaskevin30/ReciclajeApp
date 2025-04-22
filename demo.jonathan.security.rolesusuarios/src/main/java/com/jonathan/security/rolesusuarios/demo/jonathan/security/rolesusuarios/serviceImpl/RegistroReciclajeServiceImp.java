@@ -1,5 +1,6 @@
 package com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.serviceImpl;
 
+import com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.dto.RegistroReciclajeProjection;
 import com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.model.RegistroReciclaje;
 import com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.repository.ReciclajeRepository;
 import com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.repository.RegistroReciclajeRepository;
@@ -43,4 +44,9 @@ public class RegistroReciclajeServiceImp implements RegistroReciclajeService {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(registroReciclaje1);
     }
+
+    public List<RegistroReciclajeProjection> obtenerRegistroConDetalles() {
+        return registroReciclajeRepository.listarRegistroReciclajeCompleto();
+    }
+
 }

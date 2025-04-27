@@ -6,11 +6,12 @@ import com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.
 import jakarta.persistence.*;
 
 
-import java.util.List;
+
 import java.util.Set;
 
 @Entity
 @Table(name = "usuario")
+
 public class Usuario {
 
     @Id
@@ -28,7 +29,7 @@ public class Usuario {
     private String nombre;
 
     @ManyToMany(
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             cascade = {CascadeType.PERSIST}
 
     )
@@ -109,6 +110,18 @@ public class Usuario {
 
     public void setMaterialesReciclados(Set<RegistroMaterialDTO> materialesReciclados) {
         this.materialesReciclados = materialesReciclados;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "idUsuario=" + idUsuario +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", roles=" + roles +
+                ", materialesReciclados=" + materialesReciclados +
+                '}';
     }
 }
 

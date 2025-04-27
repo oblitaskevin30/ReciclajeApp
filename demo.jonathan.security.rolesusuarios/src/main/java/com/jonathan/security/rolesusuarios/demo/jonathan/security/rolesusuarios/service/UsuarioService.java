@@ -10,4 +10,6 @@ public interface UsuarioService {
     ResponseEntity<?> modificarUsuario(Integer id,Usuario usuario);
     ResponseEntity<?> eliminarUsuario(Integer id);
     ResponseEntity<?> crearUsuarioAdmin(Usuario usuario);
+    public ResponseEntity<?> buscarUsuarioResponsePorId(Integer id);
+    public ResponseEntity<?> buscarUsuarioResponsePorEmail(String email);
 }

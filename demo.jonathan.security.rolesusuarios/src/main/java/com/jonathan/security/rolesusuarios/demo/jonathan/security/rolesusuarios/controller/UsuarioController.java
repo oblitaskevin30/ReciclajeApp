@@ -33,15 +33,23 @@ public class UsuarioController {
         return  usuarioService.listarUsuario();
     }
 
+    @GetMapping("/buscarPorEmail")
+    public ResponseEntity<?> findByEmail(@RequestParam(name = "email") String email){
+        return  usuarioService.buscarUsuarioResponsePorEmail(email);
+    }
+
     @GetMapping("/buscar/{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable Integer id){
         return  usuarioService.buscarUsuarioPorId(id);
     }
 
+
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<?> eliminarUsuario(@PathVariable Integer id){
         return  usuarioService.eliminarUsuario(id);
     }
+
+
 
 
 }

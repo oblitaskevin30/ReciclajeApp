@@ -1,6 +1,9 @@
 package com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "rol")

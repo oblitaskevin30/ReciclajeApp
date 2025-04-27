@@ -2,10 +2,7 @@ package com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios
 
 import com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.dto.RegistroMaterialDTO;
 import com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.dto.UsuarioDTO;
-import com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.model.Reciclaje;
-import com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.model.RegistroReciclaje;
-import com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.model.Rol;
-import com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.model.Usuario;
+import com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.model.*;
 import com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.repository.ReciclajeRepository;
 import com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.repository.RegistroReciclajeRepository;
 import com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.repository.RolRepository;
@@ -159,6 +156,61 @@ public class UsuarioServiceImpl implements UsuarioService {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(respuesta);
     }
 
+
+    @Override
+    public ResponseEntity<?> buscarUsuarioResponsePorId(Integer id) {
+        Map<String, Object> respuesta = new HashMap<>();
+
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
+
+        if (usuarioOptional.isPresent()) {
+            Usuario usuario = usuarioOptional.get();
+
+            UsuarioResponse usuarioResponse = new UsuarioResponse();
+            usuarioResponse.setEmail(usuario.getEmail());
+            usuarioResponse.setNombre(usuario.getNombre());
+
+            respuesta.put("mensaje", "Usuario encontrado exitosamente");
+            respuesta.put("timestamp", new Date());
+            respuesta.put("data", usuarioResponse);
+            respuesta.put("estado", HttpStatus.OK);
+            return ResponseEntity.status(HttpStatus.OK).body(respuesta);
+        }
+
+        respuesta.put("mensaje", "No hay usuario registrado con ese id");
+        respuesta.put("timestamp", new Date());
+        respuesta.put("estado", HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(respuesta);
+    }
+
+    @Override
+    public ResponseEntity<?> buscarUsuarioResponsePorEmail(String email) {
+        Map<String, Object> respuesta = new HashMap<>();
+        System.out.println("Buscando usuario con email: " + email);
+
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(email);
+
+        if (usuarioOptional.isPresent()) {
+            Usuario usuario = usuarioOptional.get();
+            UsuarioDTO usuarioDTO = new UsuarioDTO();
+            usuarioDTO.setIdUsuario(usuario.getIdUsuario());
+            usuarioDTO.setEmail(usuario.getEmail());
+            usuarioDTO.setNombre(usuario.getNombre());
+            usuarioDTO.setRoles(usuario.getRoles());
+            usuarioDTO.setMaterialesReciclados(new HashSet<>());
+            usuarioDTO.setPuntajeTotal(0);
+
+            return ResponseEntity.status(HttpStatus.OK).body(usuarioDTO);
+        }
+
+        respuesta.put("mensaje", "No hay usuario registrado con ese email");
+        respuesta.put("timestamp", new Date());
+        respuesta.put("estado", HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(respuesta);
+    }
+
+
+
     @Override
     public ResponseEntity<?> crearUsuario(Usuario usuario) {
         Map<String , Object> respuesta = new HashMap<>();
@@ -170,14 +222,13 @@ public class UsuarioServiceImpl implements UsuarioService {
             newUsuario.setRoles(new HashSet<>());
 
 
-            // llamo primero al rol que quiero asignar ===>  clientes con id 2
             Rol rol = rolRepository.findById(2).orElseThrow();
 
             newUsuario.getRoles().add(rol);
 
             usuarioRepository.save(newUsuario);
 
-            respuesta.put("mensaje", "usuario CLIENTE creado correctamente");
+            respuesta.put("mensaje", "usuario cliente creado correctamente");
             respuesta.put("timestamp", new Date());
             respuesta.put("data", newUsuario);
             respuesta.put("estado", HttpStatus.OK);

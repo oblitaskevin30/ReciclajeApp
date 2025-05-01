@@ -2,7 +2,9 @@ package com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios
 
 import com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.model.Usuario;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface UsuarioService {
     ResponseEntity<?> listarUsuario();
     ResponseEntity<?> buscarUsuarioPorId(Integer id);

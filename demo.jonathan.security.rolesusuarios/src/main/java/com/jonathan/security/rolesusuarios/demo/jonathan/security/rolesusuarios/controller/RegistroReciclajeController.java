@@ -31,4 +31,15 @@ public class RegistroReciclajeController {
     public List<RegistroReciclajeProjection> listarDetallado() {
         return registroReciclajeService.obtenerRegistroConDetalles();
     }
+
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<?> actualizarRegistro(@PathVariable Integer id, @RequestBody RegistroReciclaje registroReciclaje) {
+        return registroReciclajeService.actualizarRegistroReciclaje(id, registroReciclaje);
+    }
+
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<?> eliminarRegistro(@PathVariable Integer id) {
+        return registroReciclajeService.eliminarRegistroReciclaje(id);
+    }
+
 }

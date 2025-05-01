@@ -18,7 +18,7 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired
@@ -31,21 +31,20 @@ public class AuthController {
     public ResponseEntity<?> signup(@RequestBody UsuarioRequest usuarioRequest) {
         Map<String, Object> respuesta = new HashMap<>();
         try {
-            if (usuarioRequest != null) {
+                if (usuarioRequest != null) {
 
-                Usuario usuario = new Usuario();
-                usuario.setEmail(usuarioRequest.getEmail());
-                usuario.setPassword(passwordEncoder.encode(usuarioRequest.getPassword()));
-                usuario.setNombre(usuarioRequest.getNombre());
+                    Usuario usuario = new Usuario();
+                    usuario.setEmail(usuarioRequest.getEmail());
+                    usuario.setPassword(passwordEncoder.encode(usuarioRequest.getPassword()));
+                    usuario.setNombre(usuarioRequest.getNombre());
+                    return usuarioService.crearUsuario(usuario);
+                }
 
-
-                return usuarioService.crearUsuario(usuario); // Reutilizamos el método del servicio
-            } else {
                 respuesta.put("mensaje", "El cuerpo de la solicitud está vacío");
                 respuesta.put("timestamp", new Date());
                 respuesta.put("estado", HttpStatus.BAD_REQUEST);
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(respuesta);
-            }
+
         } catch (Exception e) {
             respuesta.put("mensaje", "Error al crear el usuario");
             respuesta.put("error", e.getMessage());

@@ -11,6 +11,7 @@ import com.jonathan.security.rolesusuarios.demo.jonathan.security.rolesusuarios.
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -29,6 +30,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     private ReciclajeRepository reciclajeRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public ResponseEntity<?> listarUsuario() {
@@ -217,7 +221,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         if(usuario != null){
             Usuario newUsuario = new Usuario();
             newUsuario.setEmail(usuario.getEmail());
-            newUsuario.setPassword(usuario.getPassword());
+            newUsuario.setPassword(passwordEncoder.encode(usuario.getPassword()) );
             newUsuario.setNombre(usuario.getNombre());
             newUsuario.setRoles(new HashSet<>());
 
@@ -300,7 +304,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         if(usuario != null){
             Usuario newUsuario = new Usuario();
             newUsuario.setEmail(usuario.getEmail());
-            newUsuario.setPassword(usuario.getPassword());
+            newUsuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
             newUsuario.setNombre(usuario.getNombre());
 
 
